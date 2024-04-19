@@ -1,0 +1,10 @@
+% Test Queries
+
+?- type(M,[int],[]).
+M = typ(int)
+
+?- variable_declaration(M,[int,x,=,6,'||'],[]).
+M = var_decl(typ(int),x,=,6)
+
+?- assignment(M,[v,=,5],[]).
+M = assig(v,=,5)

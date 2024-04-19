@@ -8,3 +8,20 @@ M = var_decl(typ(int),x,=,6)
 
 ?- assignment(M,[v,=,5],[]).
 M = assig(v,=,5)
+
+% Tests for expression and terms
+?- term(T,['(',1,')'],[]).
+T = val(1)
+
+?- term(T,[1],[]).
+T = val(1)
+
+?- term(T,['(',u,+,v,=,9,+,5,')'],[]).
+T = add(term(u),+,term(store(v,=,add(val(9),+,val(5)))))
+
+?- expression(E,[u,=,9,*,7,+,u,=,6,*,5],[]).
+E = term(store(u,=,add(mul(val(9),*,val(7)),+,term(store(u,=,mul(val(6),*,val(5)))))))
+
+?- expression(E,[u,+,v,=,9,+,5],[]).
+E = add(term(u),+,term(store(v,=,add(val(9),+,val(5)))))
+

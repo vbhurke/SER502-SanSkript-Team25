@@ -1,6 +1,54 @@
-:- discontiguous variable_declaration/3.
+:- discontiguous variable_declaration/3, i/3.
 
 %:- use_rendering(svgtree).
+
+%terms for identifiers and values
+term(term(I)) --> i(I).
+term(val(N)) --> n(N).
+%Handling brackets in terms
+term(A) --> ['('], expression(A), [')'].
+
+%Expressions defined
+expression(E) --> expr_add_sub(E).
+%Expression for addition and subtraction
+expr_add_sub(A) --> term(A).
+expr_add_sub(store(I,=,E)) --> expr_mul_div(I), [=], expression(E).
+expr_add_sub(sub(A, -, B)) --> expr_mul_div(A), [-], expression(B).
+expr_add_sub(add(A, +, B)) --> expr_mul_div(A), [+], expression(B).
+expr_add_sub(A) --> expr_mul_div(A).
+% Giving priority to multiplication and division
+expr_mul_div(A) --> term(A).
+expr_mul_div(mul(A, *, B)) --> term(A), [*], expr_mul_div(B).
+expr_mul_div(div(A, /, B)) --> term(A), [/], expr_mul_div(B).
+
+% Declared initial to initialize
+i(store(a,=,E)) --> [a],[=], expression(E).
+i(store(b,=,E)) --> [b],[=], expression(E).
+i(store(c,=,E)) --> [c],[=], expression(E).
+i(store(d,=,E)) --> [d],[=], expression(E).
+i(store(e,=,E)) --> [e],[=], expression(E).
+i(store(f,=,E)) --> [f],[=], expression(E).
+i(store(g,=,E)) --> [g],[=], expression(E).
+i(store(h,=,E)) --> [h],[=], expression(E).
+i(store(i,=,E)) --> [i],[=], expression(E).
+i(store(j,=,E)) --> [j],[=], expression(E).
+i(store(k,=,E)) --> [k],[=], expression(E).
+i(store(l,=,E)) --> [l],[=], expression(E).
+i(store(m,=,E)) --> [m],[=], expression(E).
+i(store(n,=,E)) --> [n],[=], expression(E).
+i(store(o,=,E)) --> [o],[=], expression(E).
+i(store(p,=,E)) --> [p],[=], expression(E).
+i(store(q,=,E)) --> [q],[=], expression(E).
+i(store(r,=,E)) --> [r],[=], expression(E).
+i(store(s,=,E)) --> [s],[=], expression(E).
+i(store(t,=,E)) --> [t],[=], expression(E).
+i(store(u,=,E)) --> [u],[=], expression(E).
+i(store(v,=,E)) --> [v],[=], expression(E).
+i(store(w,=,E)) --> [w],[=], expression(E).
+i(store(x,=,E)) --> [x],[=], expression(E).
+i(store(y,=,E)) --> [y],[=], expression(E).
+i(store(z,=,E)) --> [z],[=], expression(E).
+
 identifier(I) --> i(I).
 
 i(a) --> [a].
@@ -45,8 +93,8 @@ n(9) --> [9].
 
 %Variable Declaration and Assignment
 variable_declaration(var_decl(T,I,=,V))--> type(T), identifier(I), [=], value(V),['||'].
-%value to be replaced by expression 
-assignment(assig(I,=,E))--> identifier(I), [=], value(E).
+%assignment
+assignment(assig(I,=,E))--> identifier(I), [=], expression(E).
 
 %Declaring datatypes
 

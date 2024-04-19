@@ -3,6 +3,8 @@ Current and Future Contributions:
 Siddharth Sharma (sshar278@asu.edu) :- Language Design - Worked on designing Boolean, clarified the principles of Boolean logic by introducing either 'true' or 'false' states. Utilized the Sanskrit keyword 'Likhyam', meaning 'writing' or 'script', to enhance the readability and expressiveness of code. Sample usage demonstrated the simplicity and effectiveness, offering a unique and culturally enriched alternative for displaying output. Introduced additional comparison operators, expanding the range of conditions that can be evaluated in control flow statements. 
 Grammar - Introduced the concept of a program being composed of a block, which starts with the keyword 'Aarambh' and ends with 'Antah'. Grammar that supports multiple declarations, enabling the declaration of multiple variables in a single statement. Grammar for types of statements, display output, support for increment and decrement operations.
 
+18th April, 2024 - Committed the code for program, block, declaration (including nested declarations) and print statement (included it in statement).
+
 Future work - Start block execution(refining), Execution of queries. Checking for passing values to variables. 
 
 Rushabh Gajab (rgajab@asu.edu) :- Language Design - clarified the syntax for variable assignment, emphasizing the usage of the '=' operator to associate a value with an identifier. Introduced and explained the ternary operator, provided a concise way to express conditional operations. Introduced the syntax for an if-then construct, clearly denoted the beginning of the block of statements.

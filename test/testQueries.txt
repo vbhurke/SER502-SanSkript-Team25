@@ -33,3 +33,19 @@ X = stat(assig(x,=,val(5)))
 
 ?- statements(X,[x,=,5,'||',x,=,x,+,5,'||'],[]).
 X = stats(stat(assig(x,=,val(5))),stats(stat(assig(x,=,add(term(x),+,val(5))))))
+
+?- print_statement(J, [likhyam, '(','SER 502 Project', ')'], []).
+J = print_stmt(print_stmt_Word('SER 502 Project'))
+
+?- statement(J, [likhyam, '(','For Statement', ')'], []).
+J = print_stmt(print_stmt(print_stmt_Word('For Statement')))
+
+?- program(M,[aarambh, int,y,=,6,'||', if,'(',y,+,5,+,4,')',else,'(',y,=,6,'||',y,=,6,'||',')', antah],[]).
+M = prgm(blk(aarambh,decl(decl(var_decl(typ(int),y,=,6))),'||',cond_blk(cond_blk(if_else_blk(if,add(term(y),+,add(val(5),+,val(4))),else,stats(stat(assig(y,=,val(6))),stats(stat(assig(y,=,val(6)))))))),antah))
+
+?- declarations(M,[int,y,=,6,'||',bool,x,=,0,'||'],[]).
+M = 
+decl(
+decl(var_decl(typ(int),y,=,6)),
+decl(decl(var_decl(typ(vrbl),x,=,0)))
+)

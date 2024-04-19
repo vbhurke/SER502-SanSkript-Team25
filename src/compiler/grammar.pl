@@ -1,6 +1,17 @@
 :- discontiguous variable_declaration/3, i/3, conditional_block/3.
-
+:- discontiguous statement/3.
 %:- use_rendering(svgtree).
+
+%Program
+program(prgm(B)) --> block(B).
+
+%Block
+block(blk(aarambh, D, '||', S, antah)) --> [aarambh], declarations(D), statements(S), [antah].
+
+% Declarations
+declaration(decl(V)) --> variable_declaration(V).
+declarations(decl(V)) --> declaration(V).
+declarations(decl(V,Vs)) --> declaration(V), declarations(Vs).
 
 %different statement rule defined.
 statements(stats(S)) --> statement(S),['||'].
@@ -9,11 +20,19 @@ statements(cond_blk(S)) --> conditional_block(S).
 
 statement(stat(S)) --> assignment(S).
 
+% Print Statement
+statement(print_stmt(S)) --> print_statement(S).
+
 %conditional block
 conditional_block(cond_blk(S)) --> if_then_block(S).
 if_then_block(if_then_blk(Exp,S)) --> [if],['('],expression(Exp),[')'],[then],['('],statements(S),[')'].
 conditional_block(cond_blk(S)) --> if_else_block(S).
 if_else_block(if_else_blk(if,Exp,else,S)) --> [if],['('],expression(Exp),[')'],[else],['('],statements(S),[')'].
+
+% Print Statements For evaluation of expressions and Strings.
+print_statement(print_stmt(P)) --> [likhyam],['('],expression(P),[')'].
+print_statement(print_stmt(W)) --> print_statement_word(W).
+print_statement_word(print_stmt_Word(X)) --> [likhyam, '(', X, ')'].
 
 %terms for identifiers and values
 term(term(I)) --> i(I).

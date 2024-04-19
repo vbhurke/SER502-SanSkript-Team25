@@ -1,6 +1,19 @@
-:- discontiguous variable_declaration/3, i/3.
+:- discontiguous variable_declaration/3, i/3, conditional_block/3.
 
 %:- use_rendering(svgtree).
+
+%different statement rule defined.
+statements(stats(S)) --> statement(S),['||'].
+statements(stats(S,Ss)) --> statement(S),['||'],statements(Ss).
+statements(cond_blk(S)) --> conditional_block(S).
+
+statement(stat(S)) --> assignment(S).
+
+%conditional block
+conditional_block(cond_blk(S)) --> if_then_block(S).
+if_then_block(if_then_blk(Exp,S)) --> [if],['('],expression(Exp),[')'],[then],['('],statements(S),[')'].
+conditional_block(cond_blk(S)) --> if_else_block(S).
+if_else_block(if_else_blk(if,Exp,else,S)) --> [if],['('],expression(Exp),[')'],[else],['('],statements(S),[')'].
 
 %terms for identifiers and values
 term(term(I)) --> i(I).

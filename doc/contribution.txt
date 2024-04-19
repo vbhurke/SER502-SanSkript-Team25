@@ -8,6 +8,8 @@ Future work - Start block execution(refining), Execution of queries. Checking fo
 Rushabh Gajab (rgajab@asu.edu) :- Language Design - clarified the syntax for variable assignment, emphasizing the usage of the '=' operator to associate a value with an identifier. Introduced and explained the ternary operator, provided a concise way to express conditional operations. Introduced the syntax for an if-then construct, clearly denoted the beginning of the block of statements.
 Grammar - Grammar specifies clear syntax for both if-then and if-else blocks, ensuring readability and ease of use for programmers. Type of loop is accompanied by clear syntax, including variable declaration, loop conditions, and block execution. Made it clear that an expression is evaluated for conditions.
 
+18th April, 2024 - Committed the code for conditional_block, statements, statement and also added sample test queries for the code.
+
 Future work - Modifying keyword usage using preprocessing. Improving for loops, generalizing usage on backend while showcasing different syntax for loops for user to use. 
 
 

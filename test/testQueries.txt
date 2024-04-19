@@ -25,3 +25,11 @@ E = term(store(u,=,add(mul(val(9),*,val(7)),+,term(store(u,=,mul(val(6),*,val(5)
 ?- expression(E,[u,+,v,=,9,+,5],[]).
 E = add(term(u),+,term(store(v,=,add(val(9),+,val(5)))))
 
+?- conditional_block(X,[if,'(',y,+,5,+,4,')',then,'(',y,=,6,+,5,'||',y,=,6,'||',')'],[]).
+X = cond_blk(if_then_blk(add(term(y),+,add(val(5),+,val(4))),stats(stat(assig(y,=,add(val(6),+,val(5)))),stats(stat(assig(y,=,val(6)))))))
+
+?- statement(X,[x,=,5],[]).
+X = stat(assig(x,=,val(5)))
+
+?- statements(X,[x,=,5,'||',x,=,x,+,5,'||'],[]).
+X = stats(stat(assig(x,=,val(5))),stats(stat(assig(x,=,add(term(x),+,val(5))))))

@@ -23,11 +23,32 @@ statement(stat(S)) --> assignment(S).
 % Print Statement
 statement(print_stmt(S)) --> print_statement(S).
 
+% create loops for nested
+loops(lps(S,Ss)) --> loop(S), loops(Ss).
+loops(L) --> loop(L).
+% create loop
+loop(lp(S)) --> traditional_whileloop(S).
+
 %conditional block
 conditional_block(cond_blk(S)) --> if_then_block(S).
 if_then_block(if_then_blk(Exp,S)) --> [if],['('],expression(Exp),[')'],[then],['('],statements(S),[')'].
 conditional_block(cond_blk(S)) --> if_else_block(S).
 if_else_block(if_else_blk(if,Exp,else,S)) --> [if],['('],expression(Exp),[')'],[else],['('],statements(S),[')'].
+
+traditional_whileloop(trd_while_blk(while,I,Ri,E,Ss)) --> [while],['('],identifier(I),relational_identifier(Ri),expression(E),[')'],['('],statements(Ss),[')'].
+
+%Increment Operations
+increment_operation(incr_op(I,++)) --> identifier(I),[++].
+increment_operation(incr_op(I,--)) --> identifier(I),[--].
+
+%Relational operators
+relational_identifier(<) --> [<].
+relational_identifier(<=) --> [<=].
+relational_identifier(>) --> [>].
+relational_identifier(>=) --> [>=].
+relational_identifier(==) --> [==].
+% using =/= imstead of != as it is giving oprerator
+relational_identifier(=/=) --> [=/=].
 
 % Print Statements For evaluation of expressions and Strings.
 print_statement(print_stmt(P)) --> [likhyam],['('],expression(P),[')'].

@@ -49,3 +49,29 @@ decl(
 decl(var_decl(typ(int),y,=,6)),
 decl(decl(var_decl(typ(vrbl),x,=,0)))
 )
+
+?- relational_identifier(Ri,[_],[]).
+Ri = <
+Ri = <=
+Ri = >
+Ri = >=
+Ri = ==
+Ri = =/=
+
+?- increment_operation(Io,[i,++],[]).
+Io = incr_op(i,++)
+
+?- increment_operation(Io,[i,--],[]).
+Io = incr_op(i,--)
+
+?- traditional_whileloop(W,[while,'(',i,<,7,')','(',x,=,7,'||',')'],[]).
+W = trd_while_blk(while,i,<,val(7),stats(stat(assig(x,=,val(7)))))
+
+?- traditional_whileloop(W,[while,'(',i,<,7,')','(',x,=,7,*,8,+,9,-,y,'||',')'],[]).
+W = trd_while_blk(while,i,<,val(7),stats(stat(assig(x,=,add(mul(val(7),*,val(8)),+,sub(val(9),-,term(y)))))))
+
+?- traditional_whileloop(W,[while,'(',i,==,7,')','(',x,=,u,'||',')'],[]).
+W = trd_while_blk(while,i,==,val(7),stats(stat(assig(x,=,term(u)))))
+
+?- loops(W,[while,'(',i,==,7,')','(',x,=,u,'||',')',while,'(',i,==,7,')','(',x,=,u,'||',')',while,'(',i,==,7,')','(',x,=,u,'||',')'],[]).
+W = lps(lp(trd_while_blk(while,i,==,val(7),stats(stat(assig(x,=,term(u)))))),lps(lp(trd_while_blk(while,i,==,val(7),stats(stat(assig(x,=,term(u)))))),lp(trd_while_blk(while,i,==,val(7),stats(stat(assig(x,=,term(u))))))))

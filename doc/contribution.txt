@@ -27,5 +27,6 @@ Viresh Bhurke (vbhurke@asu.edu) :- Language Design - Expanded the understanding 
 Grammar - grammar allows for the initialization and declaring variables, specifying the type, identifier, and optional initialization value. Grammar for data types, enabling programmers to work with different kinds of data efficiently.
 
 18th April, 2024 - Committed the code for terms, expressions and storing inside expressions. Handled priorities in expressions and terms for brackets.
+19th April, 2024 - Committed relational identifiers, while loop, incremental operations, loop for while and other loops to be stored in, loops for multiple loops.
 
 Future Work - Enviornment handling. Build and compilation in final environment. Various ways to declare variables. Multi string declaration. handling errors in declaration.

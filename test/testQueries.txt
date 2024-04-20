@@ -75,3 +75,17 @@ W = trd_while_blk(while,i,==,val(7),stats(stat(assig(x,=,term(u)))))
 
 ?- loops(W,[while,'(',i,==,7,')','(',x,=,u,'||',')',while,'(',i,==,7,')','(',x,=,u,'||',')',while,'(',i,==,7,')','(',x,=,u,'||',')'],[]).
 W = lps(lp(trd_while_blk(while,i,==,val(7),stats(stat(assig(x,=,term(u)))))),lps(lp(trd_while_blk(while,i,==,val(7),stats(stat(assig(x,=,term(u)))))),lp(trd_while_blk(while,i,==,val(7),stats(stat(assig(x,=,term(u))))))))
+
+?- range_forloop(P,[for,i,in,range,'(',1,->,5,')'],[]).
+P = rng_for_loop(for,i,in,range,1,->,5)
+
+?- traditional_forloop(P, [for, '(', i, =, 9, '||',i,_,5, '||',i,_,')'], []).
+P = trd_for_blk(for,i,9,i,<,val(5),i,incr_op(i,++))
+
+?- statements(P,[for,i,in,range,'(',1,->,5,')'],[]).
+P = lp(rng_for_loop(for,i,in,range,1,->,5))
+
+?- statements(P, [for, '(', i, =, 9, '||',i,_,5, '||',i,_,')'], []).
+P = lp(trd_for_blk(for,i,9,i,<,val(5),i,incr_op(i,++)))
+
+

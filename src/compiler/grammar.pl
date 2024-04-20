@@ -17,6 +17,8 @@ declarations(decl(V,Vs)) --> declaration(V), declarations(Vs).
 statements(stats(S)) --> statement(S),['||'].
 statements(stats(S,Ss)) --> statement(S),['||'],statements(Ss).
 statements(cond_blk(S)) --> conditional_block(S).
+%Added loops to statements.
+statements(S) --> loops(S).
 
 statement(stat(S)) --> assignment(S).
 
@@ -28,6 +30,9 @@ loops(lps(S,Ss)) --> loop(S), loops(Ss).
 loops(L) --> loop(L).
 % create loop
 loop(lp(S)) --> traditional_whileloop(S).
+%created for loop and for in range loop.
+loop(lp(S)) --> traditional_forloop(S).
+loop(lp(S)) --> range_forloop(S).
 
 %conditional block
 conditional_block(cond_blk(S)) --> if_then_block(S).
@@ -36,6 +41,9 @@ conditional_block(cond_blk(S)) --> if_else_block(S).
 if_else_block(if_else_blk(if,Exp,else,S)) --> [if],['('],expression(Exp),[')'],[else],['('],statements(S),[')'].
 
 traditional_whileloop(trd_while_blk(while,I,Ri,E,Ss)) --> [while],['('],identifier(I),relational_identifier(Ri),expression(E),[')'],['('],statements(Ss),[')'].
+% rules for traditional for loop and for in range loop.
+traditional_forloop(trd_for_blk(for,I,V,I,Ri,E1,I,Op)) --> [for],['('],identifier(I),[=],value(V),['||'],identifier(I),relational_identifier(Ri),expression(E1),['||'],increment_operation(Op),[')'].
+range_forloop(rng_for_loop(for,I,in,range,N,->,M)) -->  [for],identifier(I),[in],[range],['('],value(N),[->],value(M),[')'].
 
 %Increment Operations
 increment_operation(incr_op(I,++)) --> identifier(I),[++].

@@ -11,6 +11,7 @@ Rushabh Gajab (rgajab@asu.edu) :- Language Design - clarified the syntax for var
 Grammar - Grammar specifies clear syntax for both if-then and if-else blocks, ensuring readability and ease of use for programmers. Type of loop is accompanied by clear syntax, including variable declaration, loop conditions, and block execution. Made it clear that an expression is evaluated for conditions.
 
 18th April, 2024 - Committed the code for conditional_block, statements, statement and also added sample test queries for the code.
+19th April, 2024 - Committed the code for for-loop and for-in-range statements and for-loop and for-in-range and added sample test queries for the code.
 
 Future work - Modifying keyword usage using preprocessing. Improving for loops, generalizing usage on backend while showcasing different syntax for loops for user to use. 
 

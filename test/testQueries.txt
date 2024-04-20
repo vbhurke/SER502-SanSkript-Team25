@@ -88,4 +88,10 @@ P = lp(rng_for_loop(for,i,in,range,1,->,5))
 ?- statements(P, [for, '(', i, =, 9, '||',i,_,5, '||',i,_,')'], []).
 P = lp(trd_for_blk(for,i,9,i,<,val(5),i,incr_op(i,++)))
 
+?- expression(Exp, [6,+,9,+,0,*,4,-,'(',x,+,4,')'], []), evaluator(Exp, [(x,4)], R).
+R = 7,
+Exp = add(val(6),+,add(val(9),+,sub(mul(val(0),*,val(4)),-,add(term(x),+,val(4)))))
 
+?- expression(Exp, [2,+,4,+,8,/,3,*,a,*,b,/,q,+,'(',5,-,i,')'], []), evaluator(Exp, [(a,4),(b,2),(q,1),(i,8)], R).
+Exp = add(val(2),+,add(val(4),+,add(div(val(8),/,mul(val(3),*,mul(term(a),*,div(term(b),/,term(q))))),+,sub(val(5),-,term(i))))),
+R = 3.3333333333333335

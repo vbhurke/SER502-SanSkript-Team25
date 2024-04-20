@@ -163,3 +163,38 @@ type(typ(int))--> [int].
 type(typ(flt))--> [float].
 type(typ(vrbl))--> [bool].
 type(typ(str))--> [string].
+
+% Return answer for evaluation
+
+% Evaluator for evaluating
+evaluator(Expr, Substitutions, Ans) :-
+    evaluation(Expr, Substitutions, Ans).
+
+% Check tree for substitutions
+evaluation(term(I), Substitutions, Variable) :-
+    mem((I, Variable), Substitutions).
+evaluation(val(Value), _, Value).
+
+% Addition operation
+evaluation(add(Exp1, +, Exp2), Substitutions, Ans) :-
+    evaluation(Exp1, Substitutions, Exp1_Ans),
+    evaluation(Exp2, Substitutions, Exp2_Ans),
+    Ans is Exp1_Ans + Exp2_Ans.
+
+% Subtraction operation
+evaluation(sub(Exp1, -, Exp2), Substitutions, Ans) :-
+    evaluation(Exp1, Substitutions, Exp1_Ans),
+    evaluation(Exp2, Substitutions, Exp2_Ans),
+    Ans is Exp1_Ans - Exp2_Ans.
+
+% Multiplication Operation
+evaluation(mul(Exp1, *, Exp2), Substitutions, Ans) :-
+    evaluation(Exp1, Substitutions, Exp1_Ans),
+    evaluation(Exp2, Substitutions, Exp2_Ans),
+    Ans is Exp1_Ans * Exp2_Ans.
+
+% Division Operation
+evaluation(div(Exp1, /, Exp2), Substitutions, Ans) :-
+    evaluation(Exp1, Substitutions, Exp1_Ans),
+    evaluation(Exp2, Substitutions, Exp2_Ans),
+    Ans is Exp1_Ans / Exp2_Ans.

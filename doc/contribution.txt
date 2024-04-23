@@ -22,7 +22,10 @@ Milind Deshpande (mdeshp11@asu.edu) :- Language Design - Introduced the traditio
 Grammar - Structured grammar to expressions, ensuring that operators are applied in the correct order, rules provide clarity and predictability in expression evaluation. Supporting grammar increment and decrement operations on, grammar includes support for boolean expressions, enabling the representation 
 
 18th April, 2024 - Committed the code for identifier, variable assignment, variable declaration, and datatypes(for int, float, string, bool) and also the sample test queries for the code.
+
 19th April, 2024 - Added evaluators addition, subtraction, multiplication and division operations.
+
+23rd April, 2024 - Added evaluators for variable declaration, assignment operations and update operation.
 
 Future work - Substituting values in expression, Expression with precedence, Evaluating logically based on precedence.
 

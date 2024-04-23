@@ -1,3 +1,8 @@
+# Author - Milind Deshpande, Rushabh Gajab, Siddharth Sharma, Viresh Bhurke
+# Purpose - Grammar
+# Version - Final
+# Date - 23 April 2024
+
 :- discontiguous variable_declaration/3, i/3, conditional_block/3.
 :- discontiguous statement/3, evaluator/3, value/3,print_statement/3.
 %:- use_rendering(svgtree).
@@ -259,3 +264,26 @@ eval_bool(cond(E1, =/=, E2), Env, Result) :-
     evaluator(E2, Env, Val2), 
     % Check if the expressions are equal 
     (Val1 \= Val2 -> Result = true ; Result = false).
+
+    eval_var_declaration(var_decl(T, I, _, V), Env, NewEnv) :- 
+        % Add constant to environment 
+        NewEnv = [(T,I, V) | Env]. 
+    
+    eval_decl(decl(V), Env, NewEnv) :- 
+        eval_var_declaration(V, Env, NewEnv).
+    
+    eval_decls(decls(V), Env, FinEnv) :- 
+        eval_decl(V, Env, FinEnv).
+    
+    eval_decls(decls(V,Vs), Env, FinEnv) :- 
+        eval_decl(V, Env, Env1),
+        eval_decls(Vs, Env1, FinEnv).   
+    
+    eval_assignment(assig(I,=,E),Env,NewEnv):-
+        evaluator(E, Env, R),
+        update(_,I,R,Env,NewEnv).
+
+%Update value in Environment
+update(Typ,Id, Val, [], [(Typ,Id,Val)]). 
+update(Typ,Id, Val, [(Typ,Id,_)|T], [(Typ,Id,Val)|T]). 
+update(Typ,Id, Val, [H|T], [H|R]) :- H\=(Typ,Id,_),update(Typ,Id,Val,T,R).

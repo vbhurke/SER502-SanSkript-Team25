@@ -1,3 +1,8 @@
+# Author - Milind Deshpande, Rushabh Gajab, Siddharth Sharma, Viresh Bhurke
+# Purpose - Test Queries
+# Version - Final
+# Date - 23 April 2024
+
 % Test Queries
 
 ?- type(M,[int],[]).
@@ -104,6 +109,18 @@ Result = true
 ?- condition(C,[9,<=,8],[]),eval_bool(C, [], Result).
 Result = false
 
+?- variable_declaration(M,[int,x,=,6,'||'],[]),eval_var_declaration(M,[],Fin_Env).
+Fin_Env = [(typ(int),x,6)],
+M = var_decl(typ(int),x,=,6)
 
+?- declaration(M,[int,x,=,6,'||'],[]),eval_decl(M,[],Fin_Env).
+Fin_Env = [(typ(int),x,6)],
+M = decl(var_decl(typ(int),x,=,6))
 
+?- declarations(M,[int,x,=,6,'||'],[]),eval_decls(M,[],Fin_Env).
+Fin_Env = [(typ(int),x,6)],
+M = decls(decl(var_decl(typ(int),x,=,6)))
 
+?- assignment(M,[x,=,6],[]),eval_assignment(M,[],Fin_Env).
+Fin_Env = [(_,x,6)],
+M = assig(x,=,val(6))

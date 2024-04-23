@@ -1,26 +1,35 @@
 :- discontiguous variable_declaration/3, i/3, conditional_block/3.
-:- discontiguous statement/3.
+:- discontiguous statement/3, evaluator/3, value/3,print_statement/3.
 %:- use_rendering(svgtree).
+
+% Helper member predicate to check in list
+mem(H,[H|_]).
+mem(H,[_|T]):- mem(H,T).
 
 %Program
 program(prgm(B)) --> block(B).
 
 %Block
-block(blk(aarambh, D, '||', S, antah)) --> [aarambh], declarations(D), statements(S), [antah].
+block(blk(aarambh, D, S, antah)) --> [aarambh], declarations(D), statements(S), [antah].
 
 % Declarations
 declaration(decl(V)) --> variable_declaration(V).
-declarations(decl(V)) --> declaration(V).
-declarations(decl(V,Vs)) --> declaration(V), declarations(Vs).
+
+declarations(decls(V)) --> declaration(V).
+declarations(decls(V,Vs)) --> declaration(V), declarations(Vs).
 
 %different statement rule defined.
 statements(stats(S)) --> statement(S),['||'].
 statements(stats(S,Ss)) --> statement(S),['||'],statements(Ss).
-statements(cond_blk(S)) --> conditional_block(S).
+statement(cond_blk(S)) --> conditional_block(S).
+%statements(stats(S,Ss)) --> conditional_block(S),statements(Ss).
 %Added loops to statements.
-statements(S) --> loops(S).
+statement(S) --> loops(S).
+%statements(stats(S,Ss)) --> loops(S),statements(Ss).
 
 statement(stat(S)) --> assignment(S).
+statement(stat(S)) --> increment_operation(S).
+
 
 % Print Statement
 statement(print_stmt(S)) --> print_statement(S).
@@ -36,19 +45,26 @@ loop(lp(S)) --> range_forloop(S).
 
 %conditional block
 conditional_block(cond_blk(S)) --> if_then_block(S).
-if_then_block(if_then_blk(Exp,S)) --> [if],['('],expression(Exp),[')'],[then],['('],statements(S),[')'].
-conditional_block(cond_blk(S)) --> if_else_block(S).
-if_else_block(if_else_blk(if,Exp,else,S)) --> [if],['('],expression(Exp),[')'],[else],['('],statements(S),[')'].
+if_then_block(if_then_blk(Condition,S)) --> [if],['('],condition(Condition),[')'],[then],['('],statements(S),[')'].
 
-traditional_whileloop(trd_while_blk(while,I,Ri,E,Ss)) --> [while],['('],identifier(I),relational_identifier(Ri),expression(E),[')'],['('],statements(Ss),[')'].
+%conditional block
+conditional_block(cond_blk(S)) --> if_then_else_block(S).
+if_then_else_block(if_then_else_blk(Condition,S1,S2)) --> [if],['('],condition(Condition),[')'],[then],['('],statements(S1),[')'],[else],['('],statements(S2),[')'].
+
+traditional_whileloop(trd_while_blk(while,Condition,Ss)) --> [while],['('],condition(Condition),[')'],['('],statements(Ss),[')'].
 % rules for traditional for loop and for in range loop.
-traditional_forloop(trd_for_blk(for,I,V,I,Ri,E1,I,Op)) --> [for],['('],identifier(I),[=],value(V),['||'],identifier(I),relational_identifier(Ri),expression(E1),['||'],increment_operation(Op),[')'].
-range_forloop(rng_for_loop(for,I,in,range,N,->,M)) -->  [for],identifier(I),[in],[range],['('],value(N),[->],value(M),[')'].
+traditional_forloop(trd_for_blk(for,I,V,Condition,I,Op,Ss)) --> [for],['('],identifier(I),[=],value(V),['||'],condition(Condition),['||'],increment_operation(Op),[')'],['('],statements(Ss),[')'].
+range_forloop(rng_for_loop(for,I,in,range,N,->,M,Ss)) -->  [for],identifier(I),[in],[range],['('],value(N),[->],value(M),[')'],['('],statements(Ss),[')'].
+
+%Ternary Operator:
+conditional_block(cond_blk(S)) --> ternary_operator_block(S).
+ternary_operator_block(tern_op_blk(Condition,?,S1,:,S2)) --> condition(Condition),['?'],statements(S1),[':'],statements(S2).
 
 %Increment Operations
 increment_operation(incr_op(I,++)) --> identifier(I),[++].
 increment_operation(incr_op(I,--)) --> identifier(I),[--].
 
+condition(cond(E1,Ri,E2))--> expression(E1),relational_identifier(Ri),expression(E2).
 %Relational operators
 relational_identifier(<) --> [<].
 relational_identifier(<=) --> [<=].
@@ -65,7 +81,7 @@ print_statement_word(print_stmt_Word(X)) --> [likhyam, '(', X, ')'].
 
 %terms for identifiers and values
 term(term(I)) --> i(I).
-term(val(N)) --> n(N).
+term(val(N)) --> value(N).
 %Handling brackets in terms
 term(A) --> ['('], expression(A), [')'].
 
@@ -172,7 +188,7 @@ evaluator(Expr, Substitutions, Ans) :-
 
 % Check tree for substitutions
 evaluation(term(I), Substitutions, Variable) :-
-    mem((I, Variable), Substitutions).
+    mem((_,I, Variable), Substitutions).
 evaluation(val(Value), _, Value).
 
 % Addition operation

@@ -25,8 +25,8 @@ E = term(store(u,=,add(mul(val(9),*,val(7)),+,term(store(u,=,mul(val(6),*,val(5)
 ?- expression(E,[u,+,v,=,9,+,5],[]).
 E = add(term(u),+,term(store(v,=,add(val(9),+,val(5)))))
 
-?- conditional_block(X,[if,'(',y,+,5,+,4,')',then,'(',y,=,6,+,5,'||',y,=,6,'||',')'],[]).
-X = cond_blk(if_then_blk(add(term(y),+,add(val(5),+,val(4))),stats(stat(assig(y,=,add(val(6),+,val(5)))),stats(stat(assig(y,=,val(6)))))))
+?- conditional_block(X,[if,'(',y,>,5,+,4,')',then,'(',y,=,6,+,5,'||',y,=,6,'||',')'],[]).
+X = cond_blk(if_then_blk(cond(term(y),>,add(val(5),+,val(4))),stats(stat(assig(y,=,add(val(6),+,val(5)))),stats(stat(assig(y,=,val(6)))))))
 
 ?- statement(X,[x,=,5],[]).
 X = stat(assig(x,=,val(5)))
@@ -40,15 +40,11 @@ J = print_stmt(print_stmt_Word('SER 502 Project'))
 ?- statement(J, [likhyam, '(','For Statement', ')'], []).
 J = print_stmt(print_stmt(print_stmt_Word('For Statement')))
 
-?- program(M,[aarambh, int,y,=,6,'||', if,'(',y,+,5,+,4,')',else,'(',y,=,6,'||',y,=,6,'||',')', antah],[]).
-M = prgm(blk(aarambh,decl(decl(var_decl(typ(int),y,=,6))),'||',cond_blk(cond_blk(if_else_blk(if,add(term(y),+,add(val(5),+,val(4))),else,stats(stat(assig(y,=,val(6))),stats(stat(assig(y,=,val(6)))))))),antah))
+?- program(M,[aarambh, int,y,=,6,'||', if,'(',y,>,5,+,4,')',then,'(',y,=,6,'||',y,=,6,'||',')','||', antah],[]).
+M = prgm(blk(aarambh,decls(decl(var_decl(typ(int),y,=,6))),stats(cond_blk(cond_blk(if_then_blk(cond(term(y),>,add(val(5),+,val(4))),stats(stat(assig(y,=,val(6))),stats(stat(assig(y,=,val(6))))))))),antah))
 
 ?- declarations(M,[int,y,=,6,'||',bool,x,=,0,'||'],[]).
-M = 
-decl(
-decl(var_decl(typ(int),y,=,6)),
-decl(decl(var_decl(typ(vrbl),x,=,0)))
-)
+M = decls(decl(var_decl(typ(int),y,=,6)),decls(decl(var_decl(typ(vrbl),x,=,0))))
 
 ?- relational_identifier(Ri,[_],[]).
 Ri = <
@@ -65,33 +61,33 @@ Io = incr_op(i,++)
 Io = incr_op(i,--)
 
 ?- traditional_whileloop(W,[while,'(',i,<,7,')','(',x,=,7,'||',')'],[]).
-W = trd_while_blk(while,i,<,val(7),stats(stat(assig(x,=,val(7)))))
+W = trd_while_blk(while,cond(term(i),<,val(7)),stats(stat(assig(x,=,val(7)))))
 
 ?- traditional_whileloop(W,[while,'(',i,<,7,')','(',x,=,7,*,8,+,9,-,y,'||',')'],[]).
-W = trd_while_blk(while,i,<,val(7),stats(stat(assig(x,=,add(mul(val(7),*,val(8)),+,sub(val(9),-,term(y)))))))
+W = trd_while_blk(while,cond(term(i),<,val(7)),stats(stat(assig(x,=,add(mul(val(7),*,val(8)),+,sub(val(9),-,term(y)))))))
 
 ?- traditional_whileloop(W,[while,'(',i,==,7,')','(',x,=,u,'||',')'],[]).
-W = trd_while_blk(while,i,==,val(7),stats(stat(assig(x,=,term(u)))))
+W = trd_while_blk(while,cond(term(i),==,val(7)),stats(stat(assig(x,=,term(u)))))
 
 ?- loops(W,[while,'(',i,==,7,')','(',x,=,u,'||',')',while,'(',i,==,7,')','(',x,=,u,'||',')',while,'(',i,==,7,')','(',x,=,u,'||',')'],[]).
-W = lps(lp(trd_while_blk(while,i,==,val(7),stats(stat(assig(x,=,term(u)))))),lps(lp(trd_while_blk(while,i,==,val(7),stats(stat(assig(x,=,term(u)))))),lp(trd_while_blk(while,i,==,val(7),stats(stat(assig(x,=,term(u))))))))
+W = lps(lp(trd_while_blk(while,cond(term(i),==,val(7)),stats(stat(assig(x,=,term(u)))))),lps(lp(trd_while_blk(while,cond(term(i),==,val(7)),stats(stat(assig(x,=,term(u)))))),lp(trd_while_blk(while,cond(term(i),==,val(7)),stats(stat(assig(x,=,term(u))))))))
 
-?- range_forloop(P,[for,i,in,range,'(',1,->,5,')'],[]).
-P = rng_for_loop(for,i,in,range,1,->,5)
+?- range_forloop(P,[for,i,in,range,'(',1,->,5,')','(',t,=,8,'||',')'],[]).
+P = rng_for_loop(for,i,in,range,1,->,5,stats(stat(assig(t,=,val(8)))))
 
-?- traditional_forloop(P, [for, '(', i, =, 9, '||',i,_,5, '||',i,_,')'], []).
-P = trd_for_blk(for,i,9,i,<,val(5),i,incr_op(i,++))
+?- traditional_forloop(P, [for, '(', i, =, 9, '||',i,_,5, '||',i,_,')','(',u,=,9,'||',')'], []).
+P = trd_for_blk(for,i,9,cond(term(i),<,val(5)),i,incr_op(i,++),stats(stat(assig(u,=,val(9)))))
 
-?- statements(P,[for,i,in,range,'(',1,->,5,')'],[]).
-P = lp(rng_for_loop(for,i,in,range,1,->,5))
+?- statements(P,[for,i,in,range,'(',1,->,5,')','(',e,=,5,'||',')','||'],[]).
+P = stats(lp(rng_for_loop(for,i,in,range,1,->,5,stats(stat(assig(e,=,val(5)))))))
 
-?- statements(P, [for, '(', i, =, 9, '||',i,_,5, '||',i,_,')'], []).
-P = lp(trd_for_blk(for,i,9,i,<,val(5),i,incr_op(i,++)))
+?- statements(P, [for, '(', i, =, 9, '||',i,_,5, '||',i,_,')','(',s,=,5,'||',')','||'], []).
+P = stats(lp(trd_for_blk(for,i,9,cond(term(i),<,val(5)),i,incr_op(i,++),stats(stat(assig(s,=,val(5)))))))
 
 ?- expression(Exp, [6,+,9,+,0,*,4,-,'(',x,+,4,')'], []), evaluator(Exp, [(x,4)], R).
-R = 7,
-Exp = add(val(6),+,add(val(9),+,sub(mul(val(0),*,val(4)),-,add(term(x),+,val(4)))))
+Exp = add(val(6),+,add(val(9),+,sub(mul(val(0),*,val(4)),-,add(term(x),+,val(4))))),
+R = 7
 
-?- expression(Exp, [2,+,4,+,8,/,3,*,a,*,b,/,q,+,'(',5,-,i,')'], []), evaluator(Exp, [(a,4),(b,2),(q,1),(i,8)], R).
+?- expression(Exp, [2,+,4,+,8,/,3,*,a,*,b,/,q,+,'(',5,-,i,')'], []), evaluator(Exp, [(int,a,4),(int,b,2),(int,q,1),(int,i,8)], R).
 Exp = add(val(2),+,add(val(4),+,add(div(val(8),/,mul(val(3),*,mul(term(a),*,div(term(b),/,term(q))))),+,sub(val(5),-,term(i))))),
 R = 3.3333333333333335

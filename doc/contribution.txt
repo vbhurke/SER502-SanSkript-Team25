@@ -30,5 +30,7 @@ Grammar - grammar allows for the initialization and declaring variables, specify
 
 18th April, 2024 - Committed the code for terms, expressions and storing inside expressions. Handled priorities in expressions and terms for brackets.
 19th April, 2024 - Committed relational identifiers, while loop, incremental operations, loop for while and other loops to be stored in, loops for multiple loops.
+23rd April, 2024 - adding conditions, updating loops by adding statements at end, correcting errors for easier in evaluator.
+
 
 Future Work - Enviornment handling. Build and compilation in final environment. Various ways to declare variables. Multi string declaration. handling errors in declaration.

@@ -91,3 +91,19 @@ R = 7
 ?- expression(Exp, [2,+,4,+,8,/,3,*,a,*,b,/,q,+,'(',5,-,i,')'], []), evaluator(Exp, [(int,a,4),(int,b,2),(int,q,1),(int,i,8)], R).
 Exp = add(val(2),+,add(val(4),+,add(div(val(8),/,mul(val(3),*,mul(term(a),*,div(term(b),/,term(q))))),+,sub(val(5),-,term(i))))),
 R = 3.3333333333333335
+
+?- condition(C,[5,==,5],[]),eval_bool(C, [], Result).
+Result = true
+
+?- condition(C,[5,=/=,3],[]),eval_bool(C, [], Result).
+Result = true
+
+?- condition(C,[x,+, 9,>=,y ,-, 7],[]),eval_bool(C, [(int,x,4),(int,y,6)], Result).
+Result = true
+
+?- condition(C,[9,<=,8],[]),eval_bool(C, [], Result).
+Result = false
+
+
+
+

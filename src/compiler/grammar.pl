@@ -214,3 +214,48 @@ evaluation(div(Exp1, /, Exp2), Substitutions, Ans) :-
     evaluation(Exp1, Substitutions, Exp1_Ans),
     evaluation(Exp2, Substitutions, Exp2_Ans),
     Ans is Exp1_Ans / Exp2_Ans.
+
+eval_bool(cond(true), _, true). 
+eval_bool(cond(false), _, false). 
+ 
+eval_bool(cond(E1, ==, E2), Env, Result) :- 
+    % Evaluate the expressions 
+    evaluator(E1, Env, Val1), 
+    evaluator(E2, Env, Val2), 
+    % Check if the expressions are equal 
+    (Val1 =:= Val2 -> Result = true ; Result = false).
+
+eval_bool(cond(E1, >=, E2), Env, Result) :- 
+    % Evaluate the expressions 
+    evaluator(E1, Env, Val1), 
+    evaluator(E2, Env, Val2), 
+    % Check if the expressions are equal 
+    (Val1 >= Val2 -> Result = true ; Result = false).
+
+eval_bool(cond(E1, <=, E2), Env, Result) :- 
+    % Evaluate the expressions 
+    evaluator(E1, Env, Val1), 
+    evaluator(E2, Env, Val2), 
+    % Check if the expressions are equal 
+    (Val1 =< Val2 -> Result = true ; Result = false).
+
+eval_bool(cond(E1, >, E2), Env, Result) :- 
+    % Evaluate the expressions 
+    evaluator(E1, Env, Val1), 
+    evaluator(E2, Env, Val2), 
+    % Check if the expressions are equal 
+    (Val1 > Val2 -> Result = true ; Result = false).
+
+eval_bool(cond(E1, <, E2), Env, Result) :- 
+    % Evaluate the expressions 
+    evaluator(E1, Env, Val1), 
+    evaluator(E2, Env, Val2), 
+    % Check if the expressions are equal 
+    (Val1 < Val2 -> Result = true ; Result = false).
+
+eval_bool(cond(E1, =/=, E2), Env, Result) :- 
+    % Evaluate the expressions 
+    evaluator(E1, Env, Val1), 
+    evaluator(E2, Env, Val2), 
+    % Check if the expressions are equal 
+    (Val1 \= Val2 -> Result = true ; Result = false).

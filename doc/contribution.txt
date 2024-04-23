@@ -4,6 +4,8 @@ Siddharth Sharma (sshar278@asu.edu) :- Language Design - Worked on designing Boo
 Grammar - Introduced the concept of a program being composed of a block, which starts with the keyword 'Aarambh' and ends with 'Antah'. Grammar that supports multiple declarations, enabling the declaration of multiple variables in a single statement. Grammar for types of statements, display output, support for increment and decrement operations.
 
 18th April, 2024 - Committed the code for program, block, declaration (including nested declarations) and print statement (included it in statement).
+19th April, 2024 - Commited the code lexical analyzer
+23rd April, 2024 - Added the evaluator code for relational identifiers.
 
 Future work - Start block execution(refining), Execution of queries. Checking for passing values to variables. 
 

@@ -124,3 +124,21 @@ M = decls(decl(var_decl(typ(int),x,=,6)))
 ?- assignment(M,[x,=,6],[]),eval_assignment(M,[],Fin_Env).
 Fin_Env = [(_,x,6)],
 M = assig(x,=,val(6))
+
+?- statement(X,[x,=,5],[]),eval_stat(M,[],NewEnv).
+M = stat(assig(_A,=,val(_B))),
+NewEnv = [(_,_A,_B)],
+X = stat(assig(x,=,val(5)))
+
+?- lookup(int,i,[(int,i,6)],V).
+V = 6
+
+?- increment_operation(M,[i,++],[]),eval_increment_operation(M,[(int,i,6)],NewEnv).
+M = incr_op(i,++),
+NewEnv = [(int,i,7)]
+
+?- statement(M,[i,++],[]),eval_stat(M,[(int,i,6)],NewEnv).
+M = stat(incr_op(i,++)),
+NewEnv = [(int,i,7)]
+
+

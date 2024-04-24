@@ -283,7 +283,22 @@ eval_bool(cond(E1, =/=, E2), Env, Result) :-
         evaluator(E, Env, R),
         update(_,I,R,Env,NewEnv).
 
+eval_stat(stat(S), Env, FinEnv):- eval_assignment(S, Env, FinEnv).
+eval_stat(stat(S), Env, FinEnv):- eval_increment_operation(S, Env, FinEnv).
+eval_stats(stats(S), Env, FinEnv):- eval_stat(S, Env, FinEnv).
+eval_stats(stats(S,Ss), Env, FinEnv):- eval_stat(S, Env, Env1), eval_stats(Ss, Env1, FinEnv).
+
+eval_increment_operation(incr_op(I,++),Env,NewEnv) :- lookup(int,I,Env,V), K is V+1, 
+    update(_,I,K,Env,NewEnv).
+
+eval_increment_operation(incr_op(I,--),Env,NewEnv) :- lookup(int,I,Env,V), K is V-1, 
+    update(_,I,K,Env,NewEnv).
+
 %Update value in Environment
 update(Typ,Id, Val, [], [(Typ,Id,Val)]). 
 update(Typ,Id, Val, [(Typ,Id,_)|T], [(Typ,Id,Val)|T]). 
 update(Typ,Id, Val, [H|T], [H|R]) :- H\=(Typ,Id,_),update(Typ,Id,Val,T,R).
+%Lookup value in environment 
+lookup(_,_,[],_). 
+lookup(Typ,Id,[(Typ,Id,Val)|_],Val). 
+lookup(Typ,Id,[_|T],Val):- lookup(Typ,Id,T,Val). 

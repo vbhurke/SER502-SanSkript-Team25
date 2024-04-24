@@ -294,6 +294,27 @@ eval_increment_operation(incr_op(I,++),Env,NewEnv) :- lookup(int,I,Env,V), K is 
 eval_increment_operation(incr_op(I,--),Env,NewEnv) :- lookup(int,I,Env,V), K is V-1, 
     update(_,I,K,Env,NewEnv).
 
+% evaluator for while loop
+eval_while_loop(trd_while_blk(while,Condition,Ss),Env,NewEnv):-
+    eval_bool(Condition,Env,true),
+    eval_stats(Ss, Env, Env1),
+    eval_while_loop(trd_while_blk(while,Condition,Ss),Env1,NewEnv).
+eval_while_loop(trd_while_blk(while,Condition,_),Env,Env):-
+    eval_bool(Condition,Env,false).
+
+%evaluator for traditional for loop
+eval_traditional_forloop(trd_for_blk(for,I,V,Condition,I,Op,Ss),Env, FinEnv):- update(int,I,V,Env,Env1), eval_bool(Condition,Env1,true), eval_increment_operation(Op,Env1,Env2),
+    eval_stats(Ss, Env2, Env3), lookup(int,I,Env3,V1), eval_traditional_forloop(trd_for_blk(for,I,V1,Condition,I,Op,Ss),Env3, FinEnv).
+eval_traditional_forloop(trd_for_blk(for,I,V,Condition,I,_,_),Env, Env1):- update(int,I,V,Env,Env1), eval_bool(Condition,Env1,false).
+
+%evaluator for loop
+eval_loop(lp(S),Env,NewEnv):- eval_traditional_forloop(S,Env,NewEnv).
+eval_loop(lp(S),Env,NewEnv):- eval_while_loop(S,Env,NewEnv).
+
+% evaluator for loops
+eval_loops(S,Env,NewEnv):- eval_loop(S,Env,NewEnv).
+eval_loops(lps(S,Ss),Env,NewEnv):- eval_loop(S,Env,Env1), eval_loops(Ss,Env1,NewEnv).
+
 %Update value in Environment
 update(Typ,Id, Val, [], [(Typ,Id,Val)]). 
 update(Typ,Id, Val, [(Typ,Id,_)|T], [(Typ,Id,Val)|T]). 

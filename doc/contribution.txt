@@ -6,6 +6,7 @@ Grammar - Introduced the concept of a program being composed of a block, which s
 18th April, 2024 - Committed the code for program, block, declaration (including nested declarations) and print statement (included it in statement).
 19th April, 2024 - Commited the code lexical analyzer
 23rd April, 2024 - Added the evaluator code for relational identifiers.
+23rd April, 2024 - Added evaluator for for loop, while loop, loop and loops with test cases.
 
 Future work - Start block execution(refining), Execution of queries. Checking for passing values to variables. 
 

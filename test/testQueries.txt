@@ -141,4 +141,20 @@ NewEnv = [(int,i,7)]
 M = stat(incr_op(i,++)),
 NewEnv = [(int,i,7)]
 
+?- traditional_whileloop(X,[while,'(',i,==,7,')','(',x,=,i,'||',i,++,'||',')'],[]),eval_while_loop(X,[(int,i,7),(int,x,1)],Fin).
+Fin = [(int,i,8), (int,x,7)],
+X = trd_while_blk(while,cond(term(i),==,val(7)),stats(stat(assig(x,=,term(i))),stats(stat(incr_op(i,++)))))
+
+?- traditional_forloop(X,[for,'(',i,=,0,'||',i,<,5,'||',i,++,')','(',x,=,x,+,i,'||',')'],[]),eval_traditional_forloop(X,[(int,i,7),(int,x,1)],Fin).
+Fin = [(int,i,5), (int,x,16)],
+X = trd_for_blk(for,i,0,cond(term(i),<,val(5)),i,incr_op(i,++),stats(stat(assig(x,=,add(term(x),+,term(i))))))
+
+?- loop(X,[for,'(',i,=,5,'||',i,<,9,'||',i,++,')','(',x,=,x,+,i,'||',')'],[]),eval_loop(X,[(int,i,7),(int,x,6)],Fin).
+Fin = [(int,i,9), (int,x,36)],
+X = lp(trd_for_blk(for,i,5,cond(term(i),<,val(9)),i,incr_op(i,++),stats(stat(assig(x,=,add(term(x),+,term(i)))))))
+
+?- loops(X,[for,'(',i,=,0,'||',i,<,3,'||',i,++,')','(',x,=,x,+,i,'||',')',for,'(',i,=,9,'||',i,>,6,'||',i,--,')','(',x,=,x,+,i,'||',')'],[]),eval_loops(X,[(int,i,7),(int,x,6)],Fin).
+Fin = [(int,i,6), (int,x,33)],
+X = lps(lp(trd_for_blk(for,i,0,cond(term(i),<,val(3)),i,incr_op(i,++),stats(stat(assig(x,=,add(term(x),+,term(i))))))),lp(trd_for_blk(for,i,9,cond(term(i),>,val(6)),i,incr_op(i,--),stats(stat(assig(x,=,add(term(x),+,term(i))))))))
+
 

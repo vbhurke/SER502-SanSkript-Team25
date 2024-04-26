@@ -74,3 +74,20 @@ def tokenize(file_path):
             token_file.write(f'{value}\n')  
 
     return tokenized_output
+
+def process_prolog(tokens, parse_file):
+    """
+    Converts token list to a format suitable for Prolog processing or further manipulation.
+    """
+    prolog_code = "[" + ", ".join(map(str, tokens)) + "]"
+    temp_directory = os.path.join(os.getcwd(), 'src/runtime/temp')
+    
+    if not os.path.exists(temp_directory):
+        os.makedirs(temp_directory)
+    
+    output_file_path = os.path.join(temp_directory, f"{parse_file}.sktc")
+    
+    with open(output_file_path, 'w') as output_file:
+        output_file.write(prolog_code)
+        
+    return prolog_code

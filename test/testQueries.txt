@@ -189,7 +189,28 @@ X = trd_while_blk(while,bool_t(cond(term(i),<,val(2)),or,cond(term(x),<,val(4)))
 M = str_decl(_,s,=,project),
 P = [(s,project)]
 
-traditional_whileloop(X,[while,'(',not,i,<,7,')','(',x,=,i,'||',i,--,'||',')'],[]),eval_while_loop(X,[(i,12),(x,1)],Fin).
+?- traditional_whileloop(X,[while,'(',not,i,<,7,')','(',x,=,i,'||',i,--,'||',')'],[]),eval_while_loop(X,[(i,12),(x,1)],Fin).
 Fin = [(i,6), (x,7)],
 X = trd_while_blk(while,cond(not,cond(term(i),<,val(7))),stats(stat(assig(x,=,term(i))),stats(stat(incr_op(i,--)))))
 
+?- program(M,[aarambh, int, i, =, 8, '||', for ,i ,in ,range,'(',0,->,4,')','(', likhyam, '(', i, ')', '||', ')', '||', antah],[]),eval_program(M,[],P).
+0
+1
+2
+3
+M = prgm(blk(aarambh,decls(decl(var_decl(typ(int),i,=,8))),'||',stats(lp(rng_for_loop(for,i,in,range,0,->,4,stats(print_stmt(print_stmt(term(i))))))),antah)),
+P = [(i,4)]
+
+?- program(M,[aarambh, int, c, =, 8, '||', int, m, =, 2, '||', string, b, =,'(', awesome,')', '||',string, v, =, '(',great,')', '||', if, '(',c, >, 5, or, m, <, 3, ')', then, '(', likhyam, '(', b, ')', '||', ')', else, '(', likhyam, '(', v, ')', '||', ')', '||', antah],[]),eval_program(M,[],P).
+awesome
+M = 
+prgm(
+blk(aarambh,decls(decl(var_decl(typ(int),c,=,8)),decls(decl(var_decl(typ(int),m,=,2)),decls(decl(str_decl(_,b,=,awesome)),decls(decl(str_decl(_,v,=,great)))))),'||',stats(cond_blk(cond_blk(if_then_else_blk(bool_t(cond(term(c),>,val(5)),or,cond(term(m),<,val(3))),stats(print_stmt(print_stmt(term(b)))),stats(print_stmt(print_stmt(term(v)))))))),antah)
+)
+,
+P = [(v,great), (b,awesome), (m,2), (c,8)]
+
+?- program(M,[aarambh, int, c, =, 8, '||', int, m, =, 2, '||', string, b, =,'(', awesome,')', '||',string, v, =, '(',great,')', '||', if, '(',c, >, 5, or, m, <, 3, ')', then, '(', likhyam, '(', b, ')', '||', ')', '||', antah],[]),eval_program(M,[],P).
+awesome
+M = prgm(blk(aarambh,decls(decl(var_decl(typ(int),c,=,8)),decls(decl(var_decl(typ(int),m,=,2)),decls(decl(str_decl(_,b,=,awesome)),decls(decl(str_decl(_,v,=,great)))))),'||',stats(cond_blk(cond_blk(if_then_blk(bool_t(cond(term(c),>,val(5)),or,cond(term(m),<,val(3))),stats(print_stmt(print_stmt(term(b)))))))),antah)),
+P = [(v,great), (b,awesome), (m,2), (c,8)]

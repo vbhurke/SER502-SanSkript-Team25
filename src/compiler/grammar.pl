@@ -22,7 +22,7 @@ declaration(decl(V)) --> variable_declaration(V).
 declaration(decl(S)) --> string_declaration(S).
 declarations(decls(V)) --> declaration(V).
 declarations(decls(V,Vs)) --> declaration(V), declarations(Vs).
-%string
+%string 
 
 %different statement rule defined.
 statements(stats(S)) --> statement(S),['||'].
@@ -199,7 +199,7 @@ variable_declaration(var_decl(T,I,=,V))--> type(T), identifier(I), [=], value(V)
 %assignment
 assignment(assig(I,=,E))--> identifier(I), [=], expression(E).
 assignment(assig(I,=,W))--> identifier(I), [=], word(W).
-%string
+%string 
 string_declaration(str_decl(_,I,=,W))--> [string],identifier(I),[=],['('],word(W),[')'],['||'].
 
 %Declaring datatypes
@@ -245,26 +245,26 @@ evaluation(div(Exp1, /, Exp2), Substitutions, Ans) :-
     Ans is Exp1_Ans / Exp2_Ans.
 
 
-eval_var_declaration(var_decl(_, I, _, V), Env, NewEnv) :-
-    % Add constant to environment
-    NewEnv = [(I, V) | Env].
+eval_var_declaration(var_decl(_, I, _, V), Env, NewEnv) :- 
+    % Add constant to environment 
+    NewEnv = [(I, V) | Env]. 
 
-eval_str_declaration(str_decl(_,I,_,W), Env, NewEnv) :-
-    % Add constant to environment
-    NewEnv = [(I, W) | Env].
+eval_str_declaration(str_decl(_,I,_,W), Env, NewEnv) :- 
+    % Add constant to environment 
+    NewEnv = [(I, W) | Env]. 
 
-eval_decl(decl(V), Env, NewEnv) :-
+eval_decl(decl(V), Env, NewEnv) :- 
     eval_var_declaration(V, Env, NewEnv).
 
-eval_decl(decl(V), Env, NewEnv) :-
+eval_decl(decl(V), Env, NewEnv) :- 
     eval_str_declaration(V, Env, NewEnv).
 
-eval_decls(decls(V), Env, FinEnv) :-
+eval_decls(decls(V), Env, FinEnv) :- 
     eval_decl(V, Env, FinEnv).
 
-eval_decls(decls(V,Vs), Env, FinEnv) :-
+eval_decls(decls(V,Vs), Env, FinEnv) :- 
     eval_decl(V, Env, Env1),
-    eval_decls(Vs, Env1, FinEnv).
+    eval_decls(Vs, Env1, FinEnv).   
 
 eval_assignment(assig(I,=,E),Env,NewEnv):-
     evaluator(E, Env, R),
@@ -275,69 +275,71 @@ eval_assignment(assig(I,=,W),Env,NewEnv):-
 
 eval_stat(stat(S), Env, FinEnv):- eval_assignment(S, Env, FinEnv).
 eval_stat(stat(S), Env, FinEnv):- eval_increment_operation(S, Env, FinEnv).
+eval_stat(print_stmt(S),Env,Env):- eval_print_statement(S,Env).
 eval_stat(S,Env, FinEnv):- eval_loops(S,Env,FinEnv).
+eval_stat(cond_blk(S),Env,FinEnv):- eval_conditional_block(S,Env,FinEnv).
 
 eval_stats(stats(S), Env, FinEnv):- eval_stat(S, Env, FinEnv).
 eval_stats(stats(S,Ss), Env, FinEnv):- eval_stat(S, Env, Env1), eval_stats(Ss, Env1, FinEnv).
 
-eval_bool(cond(true), _, true).
+eval_bool(cond(true), _, true). 
 eval_bool(cond(false), _, false).
-
-eval_bool(cond(E1, ==, E2), Env, Result) :-
-    % Evaluate the expressions
-    evaluator(E1, Env, Val1),
-    evaluator(E2, Env, Val2),
-    % Check if the expressions are equal
+ 
+eval_bool(cond(E1, ==, E2), Env, Result) :- 
+    % Evaluate the expressions 
+    evaluator(E1, Env, Val1), 
+    evaluator(E2, Env, Val2), 
+    % Check if the expressions are equal 
     (Val1 =:= Val2 -> Result = true ; Result = false).
 
-eval_bool(cond(E1, >=, E2), Env, Result) :-
-    % Evaluate the expressions
-    evaluator(E1, Env, Val1),
-    evaluator(E2, Env, Val2),
-    % Check if the expressions are equal
+eval_bool(cond(E1, >=, E2), Env, Result) :- 
+    % Evaluate the expressions 
+    evaluator(E1, Env, Val1), 
+    evaluator(E2, Env, Val2), 
+    % Check if the expressions are equal 
     (Val1 >= Val2 -> Result = true ; Result = false).
 
-eval_bool(cond(E1, <=, E2), Env, Result) :-
-    % Evaluate the expressions
-    evaluator(E1, Env, Val1),
-    evaluator(E2, Env, Val2),
-    % Check if the expressions are equal
+eval_bool(cond(E1, <=, E2), Env, Result) :- 
+    % Evaluate the expressions 
+    evaluator(E1, Env, Val1), 
+    evaluator(E2, Env, Val2), 
+    % Check if the expressions are equal 
     (Val1 =< Val2 -> Result = true ; Result = false).
 
-eval_bool(cond(E1, >, E2), Env, Result) :-
-    % Evaluate the expressions
-    evaluator(E1, Env, Val1),
-    evaluator(E2, Env, Val2),
-    % Check if the expressions are equal
+eval_bool(cond(E1, >, E2), Env, Result) :- 
+    % Evaluate the expressions 
+    evaluator(E1, Env, Val1), 
+    evaluator(E2, Env, Val2), 
+    % Check if the expressions are equal 
     (Val1 > Val2 -> Result = true ; Result = false).
 
-eval_bool(cond(E1, <, E2), Env, Result) :-
-    % Evaluate the expressions
-    evaluator(E1, Env, Val1),
-    evaluator(E2, Env, Val2),
-    % Check if the expressions are equal
+eval_bool(cond(E1, <, E2), Env, Result) :- 
+    % Evaluate the expressions 
+    evaluator(E1, Env, Val1), 
+    evaluator(E2, Env, Val2), 
+    % Check if the expressions are equal 
     (Val1 < Val2 -> Result = true ; Result = false).
 
-eval_bool(cond(E1, =/=, E2), Env, Result) :-
-    % Evaluate the expressions
-    evaluator(E1, Env, Val1),
-    evaluator(E2, Env, Val2),
-    % Check if the expressions are equal
+eval_bool(cond(E1, =/=, E2), Env, Result) :- 
+    % Evaluate the expressions 
+    evaluator(E1, Env, Val1), 
+    evaluator(E2, Env, Val2), 
+    % Check if the expressions are equal 
     (Val1 \= Val2 -> Result = true ; Result = false).
 
 %%%%%Eval bool true
-eval_bool(cond(true), _, Result) :-
-    % Check if the expressions are equal
+eval_bool(cond(true), _, Result) :- 
+    % Check if the expressions are equal 
     (Result = true).
 
 %%%%%Eval bool false
-eval_bool(cond(false), _, Result) :-
-    % Check if the expressions are equal
+eval_bool(cond(false), _, Result) :- 
+    % Check if the expressions are equal 
     (Result = false).
 
 %%%%%Eval bool not
-eval_bool(cond(not,A), Env, Result) :-
-    % Check if the expressions are equal
+eval_bool(cond(not,A), Env, Result) :- 
+    % Check if the expressions are equal 
     eval_bool(A,Env,R1),
     (R1 = true -> Result = false ; Result = true).
 
@@ -350,7 +352,7 @@ eval_bool(bool_t(C1,or,C2),Env,Result):-
     eval_bool(C1,Env,Res1),
     eval_bool(C2,Env,Res2),
     (Res1 \= Res2 -> Result = true ; Result = Res1).
-
+    
 %bool(bool_t(E1,and,E2))--> condition(E1),[and],condition(E2).
 %bool(bool_t(E1,or,E2))--> condition(E1),[or],condition(E2).
 
@@ -361,20 +363,20 @@ eval_range_for(rng_for_loop(for,I,in,range,N,->,M,Ss),Env,FinEnv):- update(I,N,E
 eval_while_loop(trd_while_blk(while,Condition,Ss),Env,NewEnv):-
     eval_bool(Condition,Env,true),
     eval_stats(Ss, Env, Env1),
-
+    
     eval_while_loop(trd_while_blk(while,Condition,Ss),Env1,NewEnv).
 eval_while_loop(trd_while_blk(while,Condition,_),Env,Env):-
     eval_bool(Condition,Env,false).
 
-eval_increment_operation(incr_op(I,++),Env,NewEnv) :- lookup(I,Env,V), K is V+1,
+eval_increment_operation(incr_op(I,++),Env,NewEnv) :- lookup(I,Env,V), K is V+1, 
     update(I,K,Env,NewEnv).
 
-eval_increment_operation(incr_op(I,--),Env,NewEnv) :- lookup(I,Env,V), K is V-1,
+eval_increment_operation(incr_op(I,--),Env,NewEnv) :- lookup(I,Env,V), K is V-1, 
     update(I,K,Env,NewEnv).
 
 %traditional_forloop(trd_for_blk(for,I,V,Condition,I,Op,Ss)) --> [for],['('],identifier(I),[=],value(V),['||'],condition(Condition),['||'],increment_operation(Op),[')'],['('],statements(Ss),[')'].
 
-eval_traditional_forloop(trd_for_blk(for,I,V,Condition,I,Op,Ss),Env, FinEnv):- update(I,V,Env,Env1), eval_bool(Condition,Env1,true),
+eval_traditional_forloop(trd_for_blk(for,I,V,Condition,I,Op,Ss),Env, FinEnv):- update(I,V,Env,Env1), eval_bool(Condition,Env1,true), 
     eval_stats(Ss, Env1, Env2),eval_increment_operation(Op,Env2,Env3), lookup(I,Env3,V1), eval_traditional_forloop(trd_for_blk(for,I,V1,Condition,I,Op,Ss),Env3, FinEnv).
 eval_traditional_forloop(trd_for_blk(for,I,V,Condition,I,_,_),Env, Env):- update(I,V,Env,Env1), eval_bool(Condition,Env1,false).
 
@@ -389,11 +391,45 @@ eval_loop(lp(S),Env,NewEnv):- eval_range_for(S,Env,NewEnv).
 eval_loops(S,Env,NewEnv):- eval_loop(S,Env,NewEnv).
 eval_loops(lps(S,Ss),Env,NewEnv):- eval_loop(S,Env,Env1), eval_loops(Ss,Env1,NewEnv).
 
-%Update value in Environment
-update(Id, Val, [], [(Id,Val)]).
-update(Id, Val, [(Id,_)|T], [(Id,Val)|T]).
-update(Id, Val, [H|T], [H|R]) :- H\=(Id,_),update(Id,Val,T,R).
-%Lookup value in environment
-lookup(_,[],_).
-lookup(Id,[(Id,Val)|_],Val).
-lookup(Id,[_|T],Val):- lookup(Id,T,Val).
+%conditional_block(cond_blk(S)) --> if_then_else_block(S).
+%if_then_else_block(if_then_else_blk(Condition,S1,S2)) --> [if],['('],condition(Condition),[')'],[then],['('],statements(S1),[')'],[else],['('],statements(S2),[')'].
+eval_if_then_else_block(if_then_else_blk(Condition,S1,_),Env,NewEnv):-
+    eval_bool(Condition,Env,true), eval_stats(S1, Env, NewEnv).
+eval_if_then_else_block(if_then_else_blk(Condition,_,S2),Env,NewEnv):-
+    eval_bool(Condition,Env,false), eval_stats(S2, Env, NewEnv).
+
+%conditional_block(cond_blk(S)) --> if_then_block(S).
+%if_then_block(if_then_blk(Condition,S)) --> [if],['('],condition(Condition),[')'],[then],['('],statements(S),[')'].
+eval_if_then_block(if_then_blk(Condition,S),Env,NewEnv):-
+    eval_bool(Condition,Env,true), eval_stats(S, Env, NewEnv).
+eval_if_then_block(if_then_blk(Condition,_),Env,Env):-
+    eval_bool(Condition,Env,false).
+
+eval_conditional_block(cond_blk(S),Env,NewEnv):- eval_if_then_block(S, Env, NewEnv).
+eval_conditional_block(cond_blk(S),Env,NewEnv):- eval_if_then_else_block(S, Env, NewEnv).
+eval_conditional_block(cond_blk(S),Env,NewEnv):- eval_tern_operator(S, Env, NewEnv).
+
+eval_block(blk(aarambh, D, '||', S, antah),Env,FinEnv):- eval_decls(D, Env, Env1), eval_stats(S, Env1, FinEnv).
+
+eval_program(prgm(B),Env,FinEnv):- eval_block(B,Env,FinEnv).
+
+%evaluator for ternary operator conditional block:
+eval_tern_operator(tern_op_blk(Condition,?,S1,:,_),Env,FinEnv):-
+    eval_bool(Condition,Env,true),eval_stats(S1,Env,FinEnv).
+eval_tern_operator(tern_op_blk(Condition,?,_,:,S2),Env,FinEnv):-
+    eval_bool(Condition,Env,false),eval_stats(S2,Env,FinEnv).
+
+eval_print_statement_word(print_stmt_Word(X),Env):- mem((X,_),Env),lookup(X,Env,V),write(V).
+eval_print_statement_word(print_stmt_Word(X),Env):- \+ mem((X,_),Env),write(X). 
+eval_print_statement(print_stmt(W),Env):- eval_print_statement_word(W,Env).
+eval_print_statement(print_stmt(W),Env):- evaluator(W, Env, Ans), write(Ans),nl.
+
+
+%Update value in Environment 
+update(Id, Val, [], [(Id,Val)]). 
+update(Id, Val, [(Id,_)|T], [(Id,Val)|T]). 
+update(Id, Val, [H|T], [H|R]) :- H\=(Id,_),update(Id,Val,T,R). 
+%Lookup value in environment 
+lookup(_,[],_). 
+lookup(Id,[(Id,Val)|_],Val). 
+lookup(Id,[_|T],Val):- lookup(Id,T,Val). 

@@ -1,7 +1,7 @@
 # Author - Milind Deshpande, Rushabh Gajab, Siddharth Sharma, Viresh Bhurke
 # Purpose - Test Queries
-# Version - Final
-# Date - 23 April 2024
+# Version_2 - Final Project
+# Date - 26 April 2024
 
 % Test Queries
 
@@ -12,7 +12,7 @@ M = typ(int)
 M = var_decl(typ(int),x,=,6)
 
 ?- assignment(M,[v,=,5],[]).
-M = assig(v,=,5)
+M = assig(v,=,val(5))
 
 % Tests for expression and terms
 ?- term(T,['(',1,')'],[]).
@@ -46,7 +46,10 @@ J = print_stmt(print_stmt_Word('SER 502 Project'))
 J = print_stmt(print_stmt(print_stmt_Word('For Statement')))
 
 ?- program(M,[aarambh, int,y,=,6,'||', if,'(',y,>,5,+,4,')',then,'(',y,=,6,'||',y,=,6,'||',')','||', antah],[]).
-M = prgm(blk(aarambh,decls(decl(var_decl(typ(int),y,=,6))),stats(cond_blk(cond_blk(if_then_blk(cond(term(y),>,add(val(5),+,val(4))),stats(stat(assig(y,=,val(6))),stats(stat(assig(y,=,val(6))))))))),antah))
+M = 
+prgm(
+blk(aarambh,decls(decl(var_decl(typ(int),y,=,6))),'||',stats(cond_blk(cond_blk(if_then_blk(cond(term(y),>,add(val(5),+,val(4))),stats(stat(assig(y,=,val(6))),stats(stat(assig(y,=,val(6))))))))),antah)
+)
 
 ?- declarations(M,[int,y,=,6,'||',bool,x,=,0,'||'],[]).
 M = decls(decl(var_decl(typ(int),y,=,6)),decls(decl(var_decl(typ(vrbl),x,=,0))))
@@ -93,7 +96,7 @@ P = stats(lp(trd_for_blk(for,i,9,cond(term(i),<,val(5)),i,incr_op(i,++),stats(st
 Exp = add(val(6),+,add(val(9),+,sub(mul(val(0),*,val(4)),-,add(term(x),+,val(4))))),
 R = 7
 
-?- expression(Exp, [2,+,4,+,8,/,3,*,a,*,b,/,q,+,'(',5,-,i,')'], []), evaluator(Exp, [(int,a,4),(int,b,2),(int,q,1),(int,i,8)], R).
+?- expression(Exp, [2,+,4,+,8,/,3,*,a,*,b,/,q,+,'(',5,-,i,')'], []), evaluator(Exp, [(a,4),(b,2),(q,1),(i,8)], R). (changed)
 Exp = add(val(2),+,add(val(4),+,add(div(val(8),/,mul(val(3),*,mul(term(a),*,div(term(b),/,term(q))))),+,sub(val(5),-,term(i))))),
 R = 3.3333333333333335
 
@@ -103,7 +106,8 @@ Result = true
 ?- condition(C,[5,=/=,3],[]),eval_bool(C, [], Result).
 Result = true
 
-?- condition(C,[x,+, 9,>=,y ,-, 7],[]),eval_bool(C, [(int,x,4),(int,y,6)], Result).
+?- condition(C,[x,+, 9,>=,y ,-, 7],[]),eval_bool(C, [(x,4),(y,6)], Result). (changed)
+C = cond(add(term(x),+,val(9)),>=,sub(term(y),-,val(7))),
 Result = true
 
 ?- condition(C,[9,<=,8],[]),eval_bool(C, [], Result).
@@ -130,31 +134,62 @@ M = stat(assig(_A,=,val(_B))),
 NewEnv = [(_,_A,_B)],
 X = stat(assig(x,=,val(5)))
 
-?- lookup(int,i,[(int,i,6)],V).
+?- lookup(i,[(i,6)],V). (changed)
 V = 6
 
-?- increment_operation(M,[i,++],[]),eval_increment_operation(M,[(int,i,6)],NewEnv).
+?- increment_operation(M,[i,++],[]),eval_increment_operation(M,[(i,6)],NewEnv). (changed)
 M = incr_op(i,++),
-NewEnv = [(int,i,7)]
+NewEnv = [(i,7)]
 
-?- statement(M,[i,++],[]),eval_stat(M,[(int,i,6)],NewEnv).
+?- statement(M,[i,++],[]),eval_stat(M,[(i,6)],NewEnv). (changed)
 M = stat(incr_op(i,++)),
-NewEnv = [(int,i,7)]
+NewEnv = [(i,7)]
 
-?- traditional_whileloop(X,[while,'(',i,==,7,')','(',x,=,i,'||',i,++,'||',')'],[]),eval_while_loop(X,[(int,i,7),(int,x,1)],Fin).
-Fin = [(int,i,8), (int,x,7)],
-X = trd_while_blk(while,cond(term(i),==,val(7)),stats(stat(assig(x,=,term(i))),stats(stat(incr_op(i,++)))))
+?- traditional_whileloop(X,[while,'(',i,==,7,')','(',x,=,i,'||',i,++,'||',')'],[]),eval_while_loop(X,[(i,7),(x,1)],Fin). (changed)
+Fin = [(i,8), (x,7)],
+X = 
+trd_while_blk(
+while,
+cond(term(i),==,val(7)),
+stats(stat(assig(x,=,term(i))),stats(stat(incr_op(i,++))))
+)
 
-?- traditional_forloop(X,[for,'(',i,=,0,'||',i,<,5,'||',i,++,')','(',x,=,x,+,i,'||',')'],[]),eval_traditional_forloop(X,[(int,i,7),(int,x,1)],Fin).
-Fin = [(int,i,5), (int,x,16)],
+?- traditional_forloop(X,[for,'(',i,=,0,'||',i,<,5,'||',i,++,')','(',x,=,x,+,i,'||',')'],[]),eval_traditional_forloop(X,[(i,7),(x,1)],Fin). (changed)
+Fin = [(i,5), (x,16)],
 X = trd_for_blk(for,i,0,cond(term(i),<,val(5)),i,incr_op(i,++),stats(stat(assig(x,=,add(term(x),+,term(i))))))
 
-?- loop(X,[for,'(',i,=,5,'||',i,<,9,'||',i,++,')','(',x,=,x,+,i,'||',')'],[]),eval_loop(X,[(int,i,7),(int,x,6)],Fin).
-Fin = [(int,i,9), (int,x,36)],
+?- loop(X,[for,'(',i,=,5,'||',i,<,9,'||',i,++,')','(',x,=,x,+,i,'||',')'],[]),eval_loop(X,[(i,7),(x,6)],Fin). (changed)
+Fin = [(i,9), (x,36)],
 X = lp(trd_for_blk(for,i,5,cond(term(i),<,val(9)),i,incr_op(i,++),stats(stat(assig(x,=,add(term(x),+,term(i)))))))
 
-?- loops(X,[for,'(',i,=,0,'||',i,<,3,'||',i,++,')','(',x,=,x,+,i,'||',')',for,'(',i,=,9,'||',i,>,6,'||',i,--,')','(',x,=,x,+,i,'||',')'],[]),eval_loops(X,[(int,i,7),(int,x,6)],Fin).
-Fin = [(int,i,6), (int,x,33)],
+?- loops(X,[for,'(',i,=,0,'||',i,<,3,'||',i,++,')','(',x,=,x,+,i,'||',')',for,'(',i,=,9,'||',i,>,6,'||',i,--,')','(',x,=,x,+,i,'||',')'],[]),eval_loops(X,[(i,7),(x,6)],Fin). (changed)
+Fin = [(i,6), (x,33)],
 X = lps(lp(trd_for_blk(for,i,0,cond(term(i),<,val(3)),i,incr_op(i,++),stats(stat(assig(x,=,add(term(x),+,term(i))))))),lp(trd_for_blk(for,i,9,cond(term(i),>,val(6)),i,incr_op(i,--),stats(stat(assig(x,=,add(term(x),+,term(i))))))))
 
+?- bool(M,[i,<,4 ,and, j,>,7],[]).
+M = bool_t(cond(term(i),<,val(4)),and,cond(term(j),>,val(7)))
+
+?- bool(M,[i,<,4 ,and, j,>,7],[]),eval_bool(M,[(i,5),(j,19)],Res).
+M = bool_t(cond(term(i),<,val(4)),and,cond(term(j),>,val(7))),
+Res = false
+
+?- bool(M,[i,<,4 ,or, j,>,7],[]),eval_bool(M,[(i,5),(j,19)],Res).
+M = bool_t(cond(term(i),<,val(4)),or,cond(term(j),>,val(7))),
+Res = true
+
+?- traditional_whileloop(X,[while,'(',i,<,7,and,x,<,4,')','(',x,=,i,'||',i,++,'||',')'],[]),eval_while_loop(X,[(i,1),(x,1)],Fin). 
+Fin = [(i,5), (x,4)],
+X = trd_while_blk(while,bool_t(cond(term(i),<,val(7)),and,cond(term(x),<,val(4))),stats(stat(assig(x,=,term(i))),stats(stat(incr_op(i,++)))))
+
+?- traditional_whileloop(X,[while,'(',i,<,2,or,x,<,4,')','(',x,=,i,'||',i,++,'||',')'],[]),eval_while_loop(X,[(i,1),(x,1)],Fin). 
+Fin = [(i,5), (x,4)],
+X = trd_while_blk(while,bool_t(cond(term(i),<,val(2)),or,cond(term(x),<,val(4))),stats(stat(assig(x,=,term(i))),stats(stat(incr_op(i,++)))))
+
+?- string_declaration(M,[string,s,=,'(',project,')','||'],[]),eval_str_declaration(M,[],P).
+M = str_decl(_,s,=,project),
+P = [(s,project)]
+
+traditional_whileloop(X,[while,'(',not,i,<,7,')','(',x,=,i,'||',i,--,'||',')'],[]),eval_while_loop(X,[(i,12),(x,1)],Fin).
+Fin = [(i,6), (x,7)],
+X = trd_while_blk(while,cond(not,cond(term(i),<,val(7))),stats(stat(assig(x,=,term(i))),stats(stat(incr_op(i,--)))))
 

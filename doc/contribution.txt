@@ -7,6 +7,7 @@ Grammar - Introduced the concept of a program being composed of a block, which s
 19th April, 2024 - Commited the code lexical analyzer
 23rd April, 2024 - Added the evaluator code for relational identifiers.
 23rd April, 2024 - Added evaluator for for loop, while loop, loop and loops with test cases.
+26th April, 2024 - Changes in lookup and update, added boolean and, or, not, string declaration, word predicate,evaluator for boolean and string declaration, test cases for booleans and tradition while and for loop. 
 
 Future work - Start block execution(refining), Execution of queries. Checking for passing values to variables. 
 

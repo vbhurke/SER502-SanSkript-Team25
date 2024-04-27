@@ -27,6 +27,7 @@ Grammar - Structured grammar to expressions, ensuring that operators are applied
 19th April, 2024 - Added evaluators addition, subtraction, multiplication and division operations.
 23rd April, 2024 - Added evaluators for variable declaration, assignment operations and update operation.
 26th April, 2024 - Added the main entrypoint script file of the project, added the function to convert the tokens list geenrated by the tokenize function to a suitable format for Prolog preprocessing, added the root directory path file.
+27th April, 2024 - Added 3 new Sanskript programs and tested them.
 
 Future work - Substituting values in expression, Expression with precedence, Evaluating logically based on precedence.
 

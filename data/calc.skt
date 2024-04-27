@@ -1,0 +1,12 @@
+aarambh
+int x = 20 ||
+int y = 10 ||
+likhyam("The sum of 10 and 20 is : ") ||
+likhyam(x + y) || 
+likhyam("The difference of 10 and 20 is: ") ||
+likhyam(x - y) || 
+likhyam("The multiplication of 10 and 20 is : ") ||
+likhyam(x * y) || 
+likhyam("The sum of 10 and 20 is : ") ||
+likhyam(x / y) || 
+antah

@@ -1,0 +1,9 @@
+aarambh
+int n = 15 ||
+likhyam("Yes the number within range: ") ||
+while (n > 10 and n < 20) (
+    likhyam(n)||
+    n++ ||
+) ||
+likhyam(n) ||
+antah

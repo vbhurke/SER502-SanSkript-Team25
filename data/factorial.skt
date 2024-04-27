@@ -1,0 +1,10 @@
+aarambh
+int n = 15 ||
+int r = 1 ||
+for (i = 1 || i <= n || i++) (
+    r = r * i ||
+) ||
+likhyam("Factorial of ")||
+likhyam(n)||
+likhyam(r) ||
+antah
